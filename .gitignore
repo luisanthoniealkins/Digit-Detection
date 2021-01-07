@@ -1,0 +1,14 @@
+.iml
+.gradle
+local.properties
+.ideacaches
+.idealibraries
+.ideamodules.xml
+.ideaworkspace.xml
+.ideanavEditor.xml
+.ideaassetWizardSettings.xml
+.DS_Store
+build
+captures
+.externalNativeBuild
+.cxx
