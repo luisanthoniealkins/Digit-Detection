@@ -9,13 +9,13 @@
 
   <com.divyanshu.draw.widget.DrawView
       android:id="@+id/draw_view"
-      android:layout_width="match_parent"
-      android:layout_height="400dp"
-      android:layout_alignParentStart="true"
+      android:layout_width="350dp"
+      android:layout_height="350dp"
+      android:layout_centerHorizontal="true"
       android:layout_alignParentTop="true"/>
 
   <TextView
-      android:id="@+id/result_text"
+      android:id="@+id/result_label"
       android:textStyle="bold"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -24,6 +24,17 @@
       android:text="Result: "
       android:textSize="20sp"
       android:layout_below="@id/draw_view"/>
+
+  <TextView
+      android:id="@+id/result_text"
+      android:textStyle="bold"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginStart="8dp"
+      android:textSize="20sp"
+      android:layout_below="@id/draw_view"
+      android:layout_toEndOf="@id/result_label"/>
 
   <TextView
       android:id="@+id/predicted_text"
@@ -40,7 +51,7 @@
       android:id="@+id/clear_button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/tfe_dc_clear_button_text"
+      android:text="Speech"
       android:layout_marginStart="8dp"
       android:layout_marginBottom="8dp"
       android:layout_alignParentStart="true"

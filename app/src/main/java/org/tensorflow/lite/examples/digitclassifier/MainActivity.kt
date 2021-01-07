@@ -3,6 +3,7 @@ package org.tensorflow.lite.examples.digitclassifier
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.MotionEvent
@@ -11,8 +12,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.divyanshu.draw.widget.DrawView
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
   private var drawView: DrawView? = null
   private var clearButton: Button? = null
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
   private var predictedTextView: TextView? = null
   private var resultTextView: TextView? = null
   private var digitClassifier = DigitClassifier(this)
+  private var tts: TextToSpeech? = null
 
   @SuppressLint("ClickableViewAccessibility")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     // Setup view instances
     drawView = findViewById(R.id.draw_view)
-    drawView?.setStrokeWidth(70.0f)
+    drawView?.setStrokeWidth(50.0f)
     drawView?.setColor(Color.WHITE)
     drawView?.setBackgroundColor(Color.BLACK)
     clearButton = findViewById(R.id.clear_button)
@@ -36,15 +39,21 @@ class MainActivity : AppCompatActivity() {
     predictedTextView = findViewById(R.id.predicted_text)
     resultTextView = findViewById(R.id.result_text)
 
-    clearButton?.visibility = View.GONE
     // Setup clear drawing button
     clearButton?.setOnClickListener {
-      drawView?.clearCanvas()
-      predictedTextView?.text = getString(R.string.tfe_dc_prediction_text_placeholder)
+//      drawView?.clearCanvas()
+//      predictedTextView?.text = getString(R.string.tfe_dc_prediction_text_placeholder)
+      if (resultTextView?.text!!.isEmpty()){
+        Toast.makeText(applicationContext, "Result Empty", Toast.LENGTH_SHORT).show()
+      } else {
+        tts!!.speak(resultTextView?.text, TextToSpeech.QUEUE_FLUSH, null, "")
+      }
+
     }
 
     clearResButton?.setOnClickListener{
-      resultTextView?.text = "Result: "
+      predictedTextView?.text = getString(R.string.tfe_dc_prediction_text_placeholder)
+      resultTextView?.text = ""
     }
 
     // Setup classification trigger so that it classify after every stroke drew
@@ -60,6 +69,8 @@ class MainActivity : AppCompatActivity() {
 
       true
     }
+
+    tts = TextToSpeech(this, this)
 
     // Setup digit classifier
     digitClassifier
@@ -108,5 +119,11 @@ class MainActivity : AppCompatActivity() {
   companion object {
     private const val TAG = "MainActivity"
   }
+
+  override fun onInit(status: Int) {
+    // empty
+  }
+
+
 }
 
